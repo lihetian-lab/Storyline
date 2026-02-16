@@ -2,47 +2,63 @@
 
 ## Project Overview
 
-**Storyline** is a new project under initial setup. The repository is hosted at `github.com/lihetian-lab/Storyline`.
+**Storyline** is an LLM chat frontend for local models. It connects to **KoboldCpp** (serving Mistral 24B in llamacpp format) via the OpenAI-compatible API.
 
-**Current state**: The repo contains only an initialization script (`start`). No application code, dependencies, or build tooling have been added yet.
+Repository: `github.com/lihetian-lab/Storyline`
+
+## Tech Stack
+
+- **Frontend**: Vue 3 + Vite
+- **Styling**: Pure CSS (dark theme, no UI library)
+- **Markdown**: marked + highlight.js
+- **Backend**: KoboldCpp (external, default `localhost:5001`)
 
 ## Repository Structure
 
 ```
 Storyline/
-├── .git/          # Git repository metadata
-├── start          # Repo initialization shell script
-└── CLAUDE.md      # This file — guidance for AI assistants
+├── frontend/
+│   ├── index.html              # HTML entry
+│   ├── package.json            # Dependencies & scripts
+│   ├── vite.config.js          # Vite config with API proxy
+│   └── src/
+│       ├── main.js             # App entry
+│       ├── App.vue             # Root component
+│       ├── components/
+│       │   ├── Sidebar.vue     # Conversation list & nav
+│       │   ├── ChatView.vue    # Main chat area
+│       │   ├── MessageBubble.vue # Individual message
+│       │   ├── InputArea.vue   # Message input
+│       │   └── SettingsPanel.vue # Settings modal
+│       ├── composables/
+│       │   ├── useChat.js      # Chat logic orchestrator
+│       │   ├── useKoboldApi.js # KoboldCpp API client (streaming)
+│       │   └── useStorage.js   # localStorage persistence
+│       ├── styles/
+│       │   └── main.css        # Global styles (dark theme)
+│       └── utils/
+│           └── markdown.js     # Markdown rendering
+├── start                       # Repo initialization script
+└── CLAUDE.md                   # This file
 ```
+
+## Scripts
+
+Run from `frontend/` directory:
+
+- `npm run dev` — Start dev server (port 3000, proxies API to KoboldCpp)
+- `npm run build` — Production build to `dist/`
+- `npm run preview` — Preview production build
 
 ## Git Workflow
 
-- **Default branch**: `main` (remote), `master` (local legacy name from init)
+- **Default branch**: `main`
 - **Feature branches**: Use `claude/` prefix for AI-assisted development branches
 - Push with: `git push -u origin <branch-name>`
-
-## Development Setup
-
-No build system, package manager, or dependencies are configured yet. When the project is initialized:
-
-1. Update this file with the chosen framework, language, and tooling
-2. Document all scripts (build, test, lint, format)
-3. Document the directory structure as it evolves
 
 ## Conventions for AI Assistants
 
 - Read existing code before proposing changes
 - Keep changes minimal and focused on the task at hand
 - Do not add unnecessary abstractions, comments, or documentation beyond what is requested
-- When the project gains a test suite, run tests before committing
-- When the project gains a linter/formatter, run it before committing
 - Commit messages should be concise and describe the "why" not just the "what"
-
-## Updating This File
-
-This file should be updated whenever:
-- A framework or language is chosen for the project
-- Build tooling, linters, or formatters are added
-- The directory structure changes significantly
-- New development workflows or CI/CD pipelines are introduced
-- Key architectural decisions are made
